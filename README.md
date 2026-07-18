@@ -53,3 +53,9 @@ uv run pytest        # unit test
 ```
 
 Đây là môi trường mô phỏng, không phải hệ thống giao dịch tiền thật.
+
+## AWS AgentCore workshop
+
+Workshop triển khai project lên AWS nằm trong [workshop](workshop/README.md). Nội dung gồm kiến trúc AWS,
+AgentCore Runtime, Bedrock model provider, DynamoDB state, Gateway/Identity, observability, validation và
+cleanup. File kiến trúc editable: [strands-trader-agentcore.drawio](architecture/strands-trader-agentcore.drawio).

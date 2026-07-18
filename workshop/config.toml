@@ -1,0 +1,30 @@
+baseURL = "/"
+title = "Strands Trading Agents trên AWS"
+theme = "hugo-theme-learn"
+defaultContentLanguage = "vi"
+defaultContentLanguageInSubdir = false
+
+[languages]
+  [languages.vi]
+    languageName = "Tiếng Việt"
+    contentDir = "content/vi"
+    weight = 1
+    languageCode = "vi"
+    title = "Strands Trading Agents trên AWS"
+
+[params]
+  description = "Workshop triển khai Strands autonomous trading agents lên Amazon Bedrock AgentCore"
+  author = "Strands Trader Workshop"
+  showVisitedLinks = true
+  disableBreadcrumb = false
+  disableNextPrev = false
+  disableLandingPageButton = true
+  themeVariant = "workshop"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

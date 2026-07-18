@@ -3,7 +3,10 @@ from trader.tools import send_telegram_message
 
 
 def test_telegram_message_is_skipped_without_configuration(monkeypatch):
-    monkeypatch.setattr("trader.tools.settings", Settings())
+    monkeypatch.setattr(
+        "trader.tools.settings",
+        Settings(telegram_bot_token=None, telegram_chat_id=None),
+    )
 
     result = send_telegram_message("No trades")
 

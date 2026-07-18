@@ -1,38 +1,37 @@
 /* Autonomous Traders dashboard, dark by default.
-   Palette: accent yellow #ecad0a, blue #209dd7, purple #753991, elegant greys.
-   No gradients in the chrome; the only gradient is the soft fill under each chart. */
+   Palette inspired by the Strands mark: electric violet, blue and magenta. */
 
 :root {
-  --yellow: #ecad0a;
-  --blue: #209dd7;
-  --purple: #753991;
+  --yellow: #8b7cff;
+  --blue: #36c5f0;
+  --purple: #c56cf0;
 
-  --trend-up: #3fbf7f;
-  --trend-down: #e05560;
-  --flash-up: #6fe8a8;
-  --flash-down: #ff7b86;
+  --trend-up: #43d9c2;
+  --trend-down: #ff6f91;
+  --flash-up: #80f2df;
+  --flash-down: #ff9bb2;
 }
 
 :root[data-theme="dark"] {
-  --bg: #0f1115;
-  --bg-raised: #171a21;
-  --bg-sunk: #0a0c10;
-  --border: #2a2f38;
-  --grid: #232831;
-  --fg: #e6e8ec;
-  --fg-muted: #8a93a1;
-  --fg-dim: #5d6672;
+  --bg: #0b0b18;
+  --bg-raised: #141426;
+  --bg-sunk: #080812;
+  --border: #303052;
+  --grid: #252541;
+  --fg: #f1efff;
+  --fg-muted: #aaa6c7;
+  --fg-dim: #716d91;
 }
 
 :root[data-theme="light"] {
-  --bg: #f6f7f9;
+  --bg: #f7f6ff;
   --bg-raised: #ffffff;
-  --bg-sunk: #edf0f3;
-  --border: #dadfe5;
-  --grid: #e8ecf1;
-  --fg: #1a1d22;
-  --fg-muted: #5b6470;
-  --fg-dim: #8a93a1;
+  --bg-sunk: #efedfa;
+  --border: #d9d5ee;
+  --grid: #e5e1f3;
+  --fg: #211e38;
+  --fg-muted: #625e7b;
+  --fg-dim: #918ba9;
 }
 
 * { box-sizing: border-box; }
@@ -82,6 +81,10 @@ body {
   letter-spacing: 0.01em;
   line-height: 1.15;
   color: var(--yellow);
+  background: linear-gradient(90deg, var(--blue), var(--yellow), var(--purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brand-sub {
@@ -222,7 +225,7 @@ body {
 /* Live leader: the trader with the highest portfolio value right now. */
 .panel[data-leader="true"] {
   border-color: var(--yellow);
-  box-shadow: 0 0 0 1px var(--yellow), 0 0 20px color-mix(in srgb, var(--yellow) 22%, transparent);
+  box-shadow: 0 0 0 1px var(--yellow), 0 0 24px color-mix(in srgb, var(--purple) 24%, transparent);
 }
 
 .panel-head {

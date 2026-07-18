@@ -1,6 +1,7 @@
 import os
 
 from strands import Agent
+from strands.models import BedrockModel
 from strands.models.openai import OpenAIModel
 
 from .accounts import Account
@@ -21,8 +22,10 @@ PROVIDER_KEYS = {
 }
 
 
-def create_model() -> OpenAIModel:
+def create_model() -> OpenAIModel | BedrockModel:
     provider = settings.model_provider.lower()
+    if provider == "bedrock":
+        return BedrockModel(model_id=settings.model_id, region_name=settings.aws_region)
     key = os.getenv(PROVIDER_KEYS.get(provider, "OPENAI_API_KEY"))
     client_args = {"api_key": key}
     if provider in PROVIDER_URLS:

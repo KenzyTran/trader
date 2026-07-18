@@ -11,7 +11,7 @@ from .market import get_share_price, is_market_open
 
 LAST_NAMES = dict(zip(TRADER_NAMES, ("Patience", "Bold", "Systematic", "Crypto"), strict=True))
 MODEL_LABELS = {name: settings.model_id for name in TRADER_NAMES}
-LOG_COLORS = {"agent": "#38bdf8", "tool": "#34d399", "error": "#fb7185"}
+LOG_COLORS = {"agent": "#8b7cff", "tool": "#36c5f0", "error": "#ff6f91"}
 
 app = FastAPI(title="Strands Trading Floor API", version="0.2.0")
 app.add_middleware(
