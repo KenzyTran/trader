@@ -1,8 +1,9 @@
-baseURL = "/"
-title = "Strands Trading Agents trên AWS"
+baseURL = "https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/"
+title = "Workshop Title"
 theme = "hugo-theme-learn"
+
 defaultContentLanguage = "vi"
-defaultContentLanguageInSubdir = false
+defaultContentLanguageInSubdir = true
 
 [languages]
   [languages.vi]
@@ -10,12 +11,18 @@ defaultContentLanguageInSubdir = false
     contentDir = "content/vi"
     weight = 1
     languageCode = "vi"
-    title = "Strands Trading Agents trên AWS"
+    title = "Workshop Title"
+  [languages.en]
+    languageName = "English"
+    contentDir = "content/en"
+    weight = 2
+    languageCode = "en"
+    title = "Workshop Title"
 
 [params]
-  description = "Workshop triển khai Strands autonomous trading agents lên Amazon Bedrock AgentCore"
-  author = "Strands Trader Workshop"
-  showVisitedLinks = true
+  description = "Workshop description"
+  author = "Your Name"
+  showVisitedLinks = false
   disableBreadcrumb = false
   disableNextPrev = false
   disableLandingPageButton = true

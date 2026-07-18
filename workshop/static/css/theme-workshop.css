@@ -193,25 +193,3 @@ div.notices.info p {
     border-top: 30px solid #fd9827;
     background: #FFF2DB;
 }
-
-.workshop-figure {
-  margin: 1.8rem 0;
-  padding: 12px;
-  border: 1px solid #d5d9d9;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(35, 47, 62, .08);
-}
-
-.workshop-figure img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.workshop-figure figcaption {
-  margin-top: 8px;
-  color: #687078;
-  font-size: 12px;
-  text-align: center;
-}
