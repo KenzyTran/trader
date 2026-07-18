@@ -17,6 +17,12 @@ provides evidence. End every run by sending a short trading summary to Telegram,
 sentence appraisal."""
 
 
+def researcher_prompt() -> str:
+    return """You are a financial research specialist. Investigate the trader's request using the available
+financial-news tools, compare relevant sources, and return a concise evidence-based summary. Do not buy,
+sell, change strategy, or send notifications. Never invent tool results."""
+
+
 def run_prompt(name: str, strategy: str, account: str, rebalance: bool) -> str:
     action = "review and rebalance existing holdings" if rebalance else "research current opportunities and trade only when justified"
     return f"""It is {datetime.now():%Y-%m-%d %H:%M:%S}. Please {action}.

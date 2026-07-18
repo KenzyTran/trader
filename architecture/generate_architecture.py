@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from urllib.parse import quote
+import base64
 import shutil
 import xml.etree.ElementTree as ET
 
@@ -14,6 +15,13 @@ WIDTH, HEIGHT = 1435, 755
 
 def svg_uri(filename: str) -> str:
     return "data:image/svg+xml," + quote((ICONS / filename).read_text(encoding="utf-8"), safe="")
+
+
+def png_as_svg_uri(filename: str) -> str:
+    """Wrap an official PNG in SVG so draw.io receives a safe percent-encoded URI."""
+    data = base64.b64encode((ICONS / filename).read_bytes()).decode("ascii")
+    svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 460"><image width="460" height="460" href="data:image/png;base64,{data}"/></svg>'
+    return "data:image/svg+xml," + quote(svg, safe="")
 
 
 def generate() -> None:
@@ -63,38 +71,46 @@ def generate() -> None:
     vertex("user", "user", 35, 120, 68, 96, "shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=15;fontStyle=1;fontColor=#161E2D;strokeColor=#161E2D;strokeWidth=2;")
 
     # AgentCore Runtime.
-    vertex("runtime", "", 310, 58, 630, 265, "rounded=0;html=1;fillColor=#FFFFFF;strokeColor=#5147D9;strokeWidth=2;")
+    vertex("runtime", "", 310, 58, 630, 300, "rounded=0;html=1;fillColor=#FFFFFF;strokeColor=#5147D9;strokeWidth=2;")
     icon("runtime-icon", "", "Arch_Amazon-Bedrock-AgentCore_64.svg", 322, 67, 52, 52, 48)
     text("runtime-title", "AgentCore Runtime", 380, 68, 210, 34, 19, False, "left")
-    vertex("agent", "", 365, 140, 96, 96, f"shape=image;html=1;imageAspect=0;aspect=fixed;image={svg_uri('Strands-mark-light.svg')};")
-    text("agent-label", "Trading Floor<br>Agent", 330, 242, 166, 53, 17, False)
+    vertex("trading-agent-card", "", 320, 120, 125, 150, "rounded=1;arcSize=8;html=1;fillColor=#FFFFFF;strokeColor=#161E2D;strokeWidth=1.5;")
+    vertex("agent", "", 342, 132, 80, 80, f"shape=image;html=1;imageAspect=0;aspect=fixed;image={png_as_svg_uri('strands-agents-official.png')};")
+    text("agent-label", "Trading Agent", 325, 220, 115, 35, 16, True)
+    text("agent-role", "Orchestrator", 325, 245, 115, 18, 11, False, "center", "#545B64")
+    vertex("research-agent-card", "", 785, 120, 125, 150, "rounded=1;arcSize=8;html=1;fillColor=#FAF7FF;strokeColor=#5147D9;strokeWidth=2;")
+    vertex("research-agent", "", 807, 132, 80, 80, f"shape=image;html=1;imageAspect=0;aspect=fixed;image={png_as_svg_uri('strands-agents-official.png')};")
+    text("research-agent-label", "Research Agent", 790, 220, 115, 35, 16, True, "center", "#5147D9")
+    text("research-agent-role", "Specialist", 790, 245, 115, 18, 11, False, "center", "#545B64")
 
-    box("tool-account", "Tool 1: get_account_report()", 615, 126, 285, 38)
-    box("tool-risk", "Tool 2: validate_position_weight()", 615, 173, 285, 38, "#FFF7ED", "#ED7100")
-    routed_edge("agent-account", (461, 145), (615, 145), both=True)
-    routed_edge("agent-risk", (461, 192), (615, 192), both=True)
-    routed_edge("question", (120, 163), (355, 163))
-    routed_edge("response", (355, 186), (120, 186))
+    vertex("trader-tools", "", 480, 110, 270, 215, "rounded=0;html=1;fillColor=#FFFFFF;strokeColor=#879596;strokeWidth=1;")
+    text("trader-tools-title", "Trading Agent tools", 490, 113, 165, 22, 14, True, "left")
+    box("tool-account", "account_report()", 495, 139, 240, 25, "#F2F3F3", "#161E2D", 12)
+    box("tool-buy", "buy_shares()", 495, 168, 240, 25, "#F2F8F0", "#3F8624", 12)
+    box("tool-sell", "sell_shares()", 495, 197, 240, 25, "#F2F8F0", "#3F8624", 12)
+    box("tool-strategy", "change_strategy()", 495, 226, 240, 25, "#F2F3F3", "#161E2D", 12)
+    box("tool-price", "lookup_share_price()", 495, 255, 240, 25, "#F2F3F3", "#161E2D", 12)
+    box("tool-telegram", "send_telegram_message()", 495, 284, 240, 25, "#F2F3F3", "#161E2D", 12)
+    routed_edge("agent-research-tool", (445, 145), (785, 145), ((460, 145), (460, 103), (770, 103), (770, 145)))
+    routed_edge("agent-trader-tools", (445, 195), (480, 195))
+    routed_edge("question", (120, 163), (310, 163))
+    routed_edge("response", (310, 186), (120, 186))
     text("question-label", "User question", 145, 130, 145, 27, 16, True)
     text("response-label", "Agent response", 145, 190, 145, 27, 16, True)
-    text("task-1-label", "task", 505, 113, 65, 25, 15, True)
-    text("task-2-label", "task", 505, 160, 65, 25, 15, True)
+    box("research-tool-label", "research_agent()<br>Agent-as-Tool", 600, 64, 165, 34, "#F5F3FF", "#5147D9", 10)
 
     # MCP server is deliberately external to the AWS Cloud boundary.
     vertex("mcp", "", 1060, 120, 345, 272, "rounded=0;html=1;fillColor=#FFFFFF;strokeColor=#161E2D;strokeWidth=2;")
-    text("mcp-name", "Trading tools", 1080, 128, 175, 34, 21, False, "left", "#5147D9")
+    text("mcp-name", "Research tools", 1080, 128, 175, 34, 21, False, "left", "#5147D9")
     text("mcp-title", "MCP Server", 1260, 128, 125, 34, 17, True, "right")
-    box("mcp-price", "Tool 3: lookup_share_price()", 1095, 185, 275, 40)
-    box("mcp-execute", "Tool 4: execute_trade()", 1095, 235, 275, 40, "#F2F8F0", "#3F8624")
-    box("mcp-telegram", "Tool 5: send_telegram_message()", 1095, 285, 275, 40)
-    routed_edge("agent-mcp", (461, 217), (1060, 217))
-    text("mcp-task-label", "task", 750, 220, 70, 25, 15, True)
+    box("mcp-news", "search_financial_news()", 1095, 195, 275, 40)
+    routed_edge("research-agent-mcp", (910, 145), (1060, 205), ((1040, 145), (1040, 205)))
 
     # Supporting AWS services and dashed control-plane flows.
     icon("bedrock", "Amazon Bedrock<br>LLMs", "Arch_Amazon-Bedrock_64.svg", 330, 535, 120, 112, 68)
     icon("dynamodb", "Amazon DynamoDB<br>Portfolio state", "Arch_Amazon-DynamoDB_64.svg", 615, 535, 135, 112, 68)
-    routed_edge("agent-bedrock", (420, 296), (390, 535), ((420, 420), (390, 420)), dashed=True)
-    routed_edge("agent-state", (440, 296), (682, 535), ((440, 415), (682, 415)), dashed=True)
+    routed_edge("agent-bedrock", (390, 270), (390, 535), ((390, 420),), dashed=True)
+    routed_edge("agent-state", (420, 270), (682, 535), ((420, 415), (682, 415)), dashed=True)
     text("bedrock-flow-label", "Invokes LLM and<br>processes outputs", 230, 345, 190, 60, 16, True)
     text("state-flow-label", "Retrieve account and<br>previous trades", 455, 345, 195, 60, 16, True)
 
@@ -136,7 +152,9 @@ def render_preview(graph_root: ET.Element) -> None:
     for c in cells.values():
         if c.get("vertex") != "1":
             continue
-        x, y, w, h = geo(c); s = styles(c); raw = c.get("style", "")
+        x, y, w, h = geo(c)
+        s = styles(c)
+        raw = c.get("style", "")
         if "shape=image" in raw or "shape=label" in raw:
             image = s.get("image")
             image_size = float(s.get("imageWidth", min(w, h)))
@@ -172,8 +190,10 @@ def render_preview(graph_root: ET.Element) -> None:
         route.append((target.get("x"), target.get("y")))
         s = styles(c)
         attrs={"points":" ".join(f"{x},{y}" for x, y in route),"fill":"none","stroke":s.get("strokeColor", "#161E2D"),"stroke-width":"2","marker-end":"url(#arrow)"}
-        if s.get("dashed") == "1": attrs["stroke-dasharray"]="7 6"
-        if s.get("startArrow") == "block": attrs["marker-start"]="url(#arrow)"
+        if s.get("dashed") == "1":
+            attrs["stroke-dasharray"] = "7 6"
+        if s.get("startArrow") == "block":
+            attrs["marker-start"] = "url(#arrow)"
         ET.SubElement(svg, "polyline", **attrs)
 
     ET.indent(svg, space="  ")
