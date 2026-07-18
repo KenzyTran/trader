@@ -21,7 +21,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.139.4
+      # hugo-theme-learn in the upstream workshop template still uses
+      # .Site.IsMultiLingual, which became a hard deprecation in Hugo 0.124.
+      HUGO_VERSION: 0.123.8
     steps:
       - name: Checkout source and theme
         uses: actions/checkout@v4
